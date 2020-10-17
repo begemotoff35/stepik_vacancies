@@ -16,11 +16,16 @@ if __name__ == '__main__':
 
     # заполняем специальности:
     for spec in specialties:
-        Specialty.objects.update_or_create(code=spec['code'], title=spec['title'])
+        Specialty.objects.update_or_create(code=spec['code'], title=spec['title'], picture=spec['picture'])
 
     # заполняем компании:
     for company in companies:
-        Company.objects.update_or_create(name=company['title'], employee_count=0)
+        Company.objects.update_or_create(name=company['title'],
+                                         location=company['location'],
+                                         logo=company['logo'],
+                                         description=company['description'],
+                                         employee_count=company['employee_count'],
+                                         )
 
     # заполняем вакансии:
     for vacancy in jobs:

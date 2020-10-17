@@ -19,14 +19,21 @@ jobs = [
 
 companies = [
 
-    {"title": "workiro"},
-    {"title": "rebelrage"},
-    {"title": "staffingsmarter"},
-    {"title": "evilthreat"},
-    {"title": "hirey"},
-    {"title": "swiftattack"},
-    {"title": "troller"},
-    {"title": "primalassault"}
+    {"title": "workiro", "location": "Москва", "logo": "logo1.png", "description": "Воркиро", "employee_count": 35},
+    {"title": "rebelrage",
+     "location": "Санкт-Петербург", "logo": "logo2.png", "description": "Ребелрэдж", "employee_count": 22},
+    {"title": "staffingsmarter",
+     "location": "Омск", "logo": "logo3.png", "description": "Стаффингмастер", "employee_count": 66},
+    {"title": "evilthreat",
+     "location": "Санкт-Петербург", "logo": "logo4.png", "description": "Эвилсрет", "employee_count": 45},
+    {"title": "hirey",
+     "location": "Нижний-Новгород", "logo": "logo5.png", "description": "Хирей", "employee_count": 98},
+    {"title": "swiftattack",
+     "location": "Рига", "logo": "logo6.png", "description": "Свифтатак", "employee_count": 8},
+    {"title": "troller",
+     "location": "Смоленск", "logo": "logo7.png", "description": "Троллер", "employee_count": 12},
+    {"title": "primalassault",
+     "location": "Воронеж", "logo": "logo8.png", "description": "Прималасаут", "employee_count": 78}
 
 ]
 
@@ -34,14 +41,14 @@ companies = [
 
 specialties = [
 
-    {"code": "frontend", "title": "Фронтенд"},
-    {"code": "backend", "title": "Бэкенд"},
-    {"code": "gamedev", "title": "Геймдев"},
-    {"code": "devops", "title": "Девопс"},
-    {"code": "design", "title": "Дизайн"},
-    {"code": "products", "title": "Продукты"},
-    {"code": "management", "title": "Менеджмент"},
-    {"code": "testing", "title": "Тестирование"}
+    {"code": "frontend", "title": "Фронтенд", "picture": "specialties/specty_frontend.png"},
+    {"code": "backend", "title": "Бэкенд", "picture": "specialties/specty_backend.png"},
+    {"code": "gamedev", "title": "Геймдев", "picture": "specialties/specty_gamedev.png"},
+    {"code": "devops", "title": "Девопс", "picture": "specialties/specty_devops.png"},
+    {"code": "design", "title": "Дизайн", "picture": "specialties/specty_design.png"},
+    {"code": "products", "title": "Продукты", "picture": "specialties/specty_products.png"},
+    {"code": "management", "title": "Менеджмент", "picture": "specialties/specty_management.png"},
+    {"code": "testing", "title": "Тестирование", "picture": "specialties/specty_testing.png"}
 
 ]
 
