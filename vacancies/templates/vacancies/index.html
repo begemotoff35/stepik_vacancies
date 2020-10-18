@@ -32,12 +32,12 @@
         {% for specialty in specialties %}
         <div class="col-6 col-md-6 col-lg-3">
           <div class="card pt-4 text-center mb-4">
-            <a href="#" style="max-width: 150px;" class="mx-auto d-block">
-              <img class="mx-auto d-block" src="/static/vacancies/{{ specialty.picture }}" width="80" height="80" alt="{{ specialty.title }}">
+            <a href="{% url 'vacancies_by_speciality' specialty.item.code %}" style="max-width: 150px;" class="mx-auto d-block">
+              <img class="mx-auto d-block" src="/static/vacancies/{{ specialty.item.picture }}" width="80" height="80" alt="{{ specialty.item.title }}">
             </a>
             <div class="card-body">
-              <p class="card-text mb-2">{{ specialty.title }}</p>
-              <p class="card-text"><a href="#">{{ specialty.count }} вакансий</a></p>
+              <p class="card-text mb-2">{{ specialty.item.title }}</p>
+              <p class="card-text"><a href="{% url 'vacancies_by_speciality' specialty.item.code %}">{{ specialty.number_of_vacancies }} вакансий</a></p>
             </div>
           </div>
         </div>
@@ -52,11 +52,11 @@
         {% for company in companies %}
         <div class="col-6 col-md-6 col-lg-3">
           <div class="card pt-4 text-center mb-4">
-            <a href="#" style="max-width: 150px;" class="mx-auto d-block">
-              <img class="mx-auto d-block mw-100" src="/static/vacancies/{{ company.logo }}" alt="{{ company.name }}">
+            <a href="{% url 'company_vacancies' company.item.id %}" style="max-width: 150px;" class="mx-auto d-block">
+              <img class="mx-auto d-block mw-100" src="/static/vacancies/{{ company.item.logo }}" alt="{{ company.item.name }}">
             </a>
             <div class="card-body">
-              <p class="card-text"><a href="#">{{ company.count }} вакансий</a></p>
+              <p class="card-text"><a href="{% url 'company_vacancies' company.item.id %}">{{ company.number_of_vacancies }} вакансий</a></p>
             </div>
           </div>
         </div>

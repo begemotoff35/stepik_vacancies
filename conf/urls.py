@@ -27,8 +27,8 @@ urlpatterns = [
     path('vacancies/', VacanciesView.as_view(), name='all_vacancies'),
     path('vacancies/cat/<slug:speciality_code>/', VacanciesView.as_view(), name='vacancies_by_speciality'),
     # re_path(r'^vacancies/?(cat/(?P<speciality_code>\w+))?/$', VacanciesView.as_view()),
-    path('vacancies/<int:vacancy_id>/', VacancyView.as_view(), name='company_info'),
-    path('companies/<int:company_id>/', CompanyView.as_view(), name='vacancy_info'),
+    path('vacancies/<int:vacancy_id>/', VacancyView.as_view(), name='vacancy_info'),
+    path('companies/<int:company_id>/', CompanyView.as_view(), name='company_vacancies'),
 ]
 
 if settings.DEBUG:

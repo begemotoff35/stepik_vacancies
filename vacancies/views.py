@@ -12,32 +12,36 @@ class MainView(TemplateView):
 
     def get(self, request, *args, **kwargs):
         #
-        # Сделано криво, подскажите пожалуйста в рецензии, как правильно!
+        # Сделано через циклы. Подскажите, пожалуйста, в рецензии, как сделать одним запросом
+        # и правильно передать данные в шаблон
         #
-        # Все вакансии из нашей базы данных:
-        all_specialties = Specialty.objects.all()
+        # Список, в котором хранятся наши специальности и количество вакансий:
+        specialties = list()
+
+        all_specialties = list(Specialty.objects.all())
         # Группируем специальности из вакансий:
         vacant_specialties = Vacancy.objects.values('specialty').annotate(count=Count('specialty'))
-        for spec in vacant_specialties:
-            all_spec = all_specialties.filter(id=spec['specialty']).first()
-            if all_spec is not None:
-                # Добавляем поля для шаблона:
-                spec['code'] = all_spec.code
-                spec['title'] = all_spec.title
-                spec['picture'] = all_spec.picture
+        for specialty in all_specialties:
+            number_of_vacancies = 0
+            vacancy_set = vacant_specialties.filter(specialty=specialty.id)
+            if len(vacancy_set):
+                number_of_vacancies = vacancy_set[0]['count']
+            specialties.append({"item": specialty, "number_of_vacancies": number_of_vacancies})
 
         # все компании:
+        companies = list()
+
         all_companies = Company.objects.all()
         # из вакансий:
-        vacant_companies = Vacancy.objects.values('company').annotate(count=Count('specialty'))
-        for company in vacant_companies:
-            all_comp = all_companies.filter(id=company['company']).first()
-            if all_comp is not None:
-                # Добавляем поля для шаблона:
-                company['name'] = all_comp.name
-                company['logo'] = all_comp.logo
+        vacant_companies = Vacancy.objects.values('company').annotate(count=Count('company'))
+        for company in all_companies:
+            number_of_vacancies = 0
+            vacancy_set = vacant_specialties.filter(company=company.id)
+            if len(vacancy_set):
+                number_of_vacancies = vacancy_set[0]['count']
+            companies.append({"item": company, "number_of_vacancies": number_of_vacancies})
 
-        return render(request, self.template_name, {'specialties': vacant_specialties, 'companies': vacant_companies})
+        return render(request, self.template_name, {'specialties': specialties, 'companies': companies})
 
 
 class VacanciesView(TemplateView):
@@ -57,6 +61,7 @@ class VacanciesView(TemplateView):
             context['current_specialty'] = specialty
 
         context['vacancies'] = vacancies
+        context['title_left'] = 'Вакансии'
 
         return context
 
@@ -64,12 +69,34 @@ class VacanciesView(TemplateView):
 class VacancyView(TemplateView):
     template_name = "vacancies/vacancy.html"
 
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'title_left': 'Вакансия'})
+    def get_context_data(self, **kwargs):
+        context = super(VacancyView, self).get_context_data(**kwargs)
+        vacancy_id = context.get('vacancy_id', None)
+        if vacancy_id is None:
+            raise Http404
+
+        vacancy = Vacancy.objects.filter(id=vacancy_id).first()
+
+        context['vacancy'] = vacancy
+        context['title_left'] = 'Вакансия'
+
+        return context
 
 
 class CompanyView(TemplateView):
     template_name = "vacancies/company.html"
 
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'title_left': 'Компания'})
+    def get_context_data(self, **kwargs):
+        context = super(CompanyView, self).get_context_data(**kwargs)
+        company_id = context.get('company_id', None)
+        if company_id is None:
+            raise Http404
+
+        company = Company.objects.filter(id=company_id).first()
+        vacancies = Vacancy.objects.filter(company_id=company_id)
+
+        context['company'] = company
+        context['vacancies'] = vacancies
+        context['title_left'] = 'Компания'
+
+        return context
