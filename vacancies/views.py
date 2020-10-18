@@ -36,7 +36,7 @@ class MainView(TemplateView):
         vacant_companies = Vacancy.objects.values('company').annotate(count=Count('company'))
         for company in all_companies:
             number_of_vacancies = 0
-            vacancy_set = vacant_specialties.filter(company=company.id)
+            vacancy_set = vacant_companies.filter(company=company.id)
             if len(vacancy_set):
                 number_of_vacancies = vacancy_set[0]['count']
             companies.append({"item": company, "number_of_vacancies": number_of_vacancies})
