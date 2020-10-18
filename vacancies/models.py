@@ -30,4 +30,3 @@ class Vacancy(models.Model):
     salary_min = models.FloatField()
     salary_max = models.FloatField()
     published_at = models.DateField()
-

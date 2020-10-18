@@ -14,15 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 from vacancies.views import MainView, VacanciesView, VacancyView, CompanyView
 
-urlpatterns = {
+urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', MainView.as_view()),
-    # path('vacancies/cat/<str:specialization>', VacanciesView.as_view()),
-    re_path(r'^vacancies/?(cat/(?P<specialty>\w+))?/$', VacanciesView.as_view()),
-    path('vacancies/<int:vacancy_id>', VacancyView.as_view()),
-    path('companies/<int:company_id>', CompanyView.as_view()),
-}
+    path('', MainView.as_view(), name='main'),
+    path('vacancies/', VacanciesView.as_view(), name='all_vacancies'),
+    path('vacancies/cat/<slug:speciality_code>/', VacanciesView.as_view(), name='vacancies_by_speciality'),
+    # re_path(r'^vacancies/?(cat/(?P<speciality_code>\w+))?/$', VacanciesView.as_view()),
+    path('vacancies/<int:vacancy_id>/', VacancyView.as_view(), name='company_info'),
+    path('companies/<int:company_id>/', CompanyView.as_view(), name='vacancy_info'),
+]
+
+if settings.DEBUG:
+    # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
