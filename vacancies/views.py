@@ -11,37 +11,10 @@ class MainView(TemplateView):
     template_name = "vacancies/index.html"
 
     def get(self, request, *args, **kwargs):
-        #
-        # Сделано через циклы. Подскажите, пожалуйста, в рецензии, как сделать одним запросом
-        # и правильно передать данные в шаблон
-        #
-        # Список, в котором хранятся наши специальности и количество вакансий:
-        specialties = list()
-
-        all_specialties = list(Specialty.objects.all())
-        # Группируем специальности из вакансий:
-        vacant_specialties = Vacancy.objects.values('specialty').annotate(count=Count('specialty'))
-        for specialty in all_specialties:
-            number_of_vacancies = 0
-            vacancy_set = vacant_specialties.filter(specialty=specialty.id)
-            if len(vacancy_set):
-                number_of_vacancies = vacancy_set[0]['count']
-            specialties.append({"item": specialty, "number_of_vacancies": number_of_vacancies})
-
-        # все компании:
-        companies = list()
-
-        all_companies = Company.objects.all()
-        # из вакансий:
-        vacant_companies = Vacancy.objects.values('company').annotate(count=Count('company'))
-        for company in all_companies:
-            number_of_vacancies = 0
-            vacancy_set = vacant_companies.filter(company=company.id)
-            if len(vacancy_set):
-                number_of_vacancies = vacancy_set[0]['count']
-            companies.append({"item": company, "number_of_vacancies": number_of_vacancies})
-
-        return render(request, self.template_name, {'specialties': specialties, 'companies': companies})
+        specialties_with_vacancy_count = Specialty.objects.annotate(number_of_vacancies=Count('vacancies'))
+        companies_with_vacancy_count = Company.objects.annotate(number_of_vacancies=Count('vacancies'))
+        return render(request, self.template_name,
+                      {'specialties': specialties_with_vacancy_count, 'companies': companies_with_vacancy_count})
 
 
 class VacanciesView(TemplateView):

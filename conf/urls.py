@@ -18,11 +18,15 @@ from django.urls import path
 
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import include
 
 from vacancies.views import MainView, VacanciesView, VacancyView, CompanyView
 
+import debug_toolbar
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('__debug__/', include(debug_toolbar.urls)),
     path('', MainView.as_view(), name='main'),
     path('vacancies/', VacanciesView.as_view(), name='all_vacancies'),
     path('vacancies/cat/<slug:speciality_code>/', VacanciesView.as_view(), name='vacancies_by_speciality'),
