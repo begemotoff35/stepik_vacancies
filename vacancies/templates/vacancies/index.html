@@ -1,5 +1,6 @@
 {% extends "vacancies/base.html" %}
 {% load static %}
+{% load my_extras %}
 {% block content %}
   <main class="container mt-3">
     <section>
@@ -37,7 +38,7 @@
             </a>
             <div class="card-body">
               <p class="card-text mb-2">{{ specialty.title }}</p>
-              <p class="card-text"><a href="{% url 'vacancies_by_speciality' specialty.code %}">{{ specialty.number_of_vacancies}} вакансий</a></p>
+              <p class="card-text"><a href="{% url 'vacancies_by_speciality' specialty.code %}">{% vacancy_by_number specialty.number_of_vacancies %}</a></p>
             </div>
           </div>
         </div>
@@ -56,7 +57,7 @@
               <img class="mx-auto d-block mw-100" src="/static/vacancies/{{ company.logo }}" alt="{{ company.name }}">
             </a>
             <div class="card-body">
-              <p class="card-text"><a href="{% url 'company_vacancies' company.id %}">{{ company.number_of_vacancies }} вакансий</a></p>
+              <p class="card-text"><a href="{% url 'company_vacancies' company.id %}">{% vacancy_by_number company.number_of_vacancies %}</a></p>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 {% extends "vacancies/base.html" %}
+{% load my_extras %}
 {% block content %}
   <main class="container mt-3">
     <div class="navbar mt-5">
@@ -9,7 +10,7 @@
         <img src="/static/vacancies/{{ company.logo }}" width="130" height="80" alt="">
       </div>
       <h1 class="h1 text-center mx-auto mt-0 pt-1" style="font-size: 70px;"><strong>{{ company.name }}</strong></h1>
-      <p class="text-center pt-1">Компания, {{ vacancies|length }} вакансий</p>
+      <p class="text-center pt-1">Компания, {% vacancy_by_number vacancies|length %}</p>
       {% include 'vacancies/base_card_vacancy.html' %}
     </section>
   </main>
