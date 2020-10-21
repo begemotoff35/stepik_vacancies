@@ -10,7 +10,7 @@ from vacancies.models import Specialty, Company, Vacancy
 class MainView(TemplateView):
     template_name = "vacancies/index.html"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         specialties_with_vacancy_count = Specialty.objects.annotate(number_of_vacancies=Count('vacancies'))
         companies_with_vacancy_count = Company.objects.annotate(number_of_vacancies=Count('vacancies'))
         return render(request, self.template_name,
@@ -42,13 +42,12 @@ class VacanciesView(TemplateView):
 class VacancyView(TemplateView):
     template_name = "vacancies/vacancy.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, vacancy_id, **kwargs):
         context = super(VacancyView, self).get_context_data(**kwargs)
-        vacancy_id = context.get('vacancy_id', None)
         if vacancy_id is None:
             raise Http404
 
-        vacancy = Vacancy.objects.filter(id=vacancy_id).first()
+        vacancy = Vacancy.objects.get(id=vacancy_id)
 
         context['vacancy'] = vacancy
         context['title_left'] = 'Вакансия'
@@ -59,13 +58,13 @@ class VacancyView(TemplateView):
 class CompanyView(TemplateView):
     template_name = "vacancies/company.html"
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, company_id, **kwargs):
         context = super(CompanyView, self).get_context_data(**kwargs)
-        company_id = context.get('company_id', None)
+        # company_id = context.get('company_id', None)
         if company_id is None:
             raise Http404
 
-        company = Company.objects.filter(id=company_id).first()
+        company = Company.objects.get(id=company_id)
         vacancies = Vacancy.objects.filter(company_id=company_id)
 
         context['company'] = company

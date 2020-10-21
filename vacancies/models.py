@@ -23,10 +23,10 @@ class Company(models.Model):
 
 class Vacancy(models.Model):
     title = models.CharField(max_length=100)
-    specialty = models.ForeignKey(Specialty, on_delete=models.CASCADE, related_name="vacancies", null=True)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="vacancies", null=True)
+    specialty = models.ForeignKey(Specialty, on_delete=models.CASCADE, related_name="vacancies")
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="vacancies")
     skills = models.CharField(max_length=100)
     description = models.TextField(max_length=200)
-    salary_min = models.FloatField()
-    salary_max = models.FloatField()
-    published_at = models.DateField()
+    salary_min = models.DecimalField(decimal_places=2, max_digits=15)
+    salary_max = models.DecimalField(decimal_places=2, max_digits=15)
+    published_at = models.DateField(auto_now=True)
