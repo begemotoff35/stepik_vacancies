@@ -4,7 +4,7 @@ from django.db import models
 class Specialty(models.Model):
     code = models.SlugField(unique=True)
     title = models.CharField(max_length=100)
-    picture = models.FileField()
+    picture = models.CharField(max_length=255)
 
     def __str__(self):
         return f'{self.code}/{self.title}'
@@ -13,7 +13,7 @@ class Specialty(models.Model):
 class Company(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
-    logo = models.FileField()
+    logo = models.CharField(max_length=255)
     description = models.TextField(max_length=200)
     employee_count = models.IntegerField()
 
